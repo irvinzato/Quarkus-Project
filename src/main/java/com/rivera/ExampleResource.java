@@ -1,16 +1,36 @@
 package com.rivera;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import com.rivera.entities.Product;
+import com.rivera.repositories.ProductRepository;
+
+import javax.inject.Inject;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/product")
+@Produces(MediaType.APPLICATION_JSON)
 public class ExampleResource {
 
+    @Inject
+    ProductRepository productRepository;
+
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String hello() {
-        return "Hello from RESTEasy Reactive";
+    public List<Product> list() {
+        return productRepository.listProducts();
     }
+
+    @POST
+    public Response addProduct(Product product){
+        productRepository.createProduct(product);
+        return Response.ok().build();
+    }
+
+    @DELETE
+    public Response deleteProduct(Product product){
+        productRepository.deleteProduct(product);
+        return Response.ok().build();
+    }
+
 }
