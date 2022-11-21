@@ -27,10 +27,25 @@ public class ExampleResource {
         return Response.ok().build();
     }
 
+    @GET
+    @Path("/{id}")
+    public Response findProduct(@PathParam("id") Long id){
+        Product product = productRepository.byId(id);
+        return Response.ok(product).build();
+    }
+
+    @PUT
+    @Path("/{id}")
+    public Response editProduct(@PathParam("id") Long id, Product product){
+        Product productEdit = productRepository.editProduct(id, product);
+        return Response.ok(productEdit).build();
+    }
+
     @DELETE
-    public Response deleteProduct(Product product){
-        productRepository.deleteProduct(product);
-        return Response.ok().build();
+    @Path("/borrar/{id}")
+    public Response deleteProduct(@PathParam("id") Long id){
+        productRepository.deleteProduct(id);
+        return Response.ok("Producto eliminado con id " + id).build();
     }
 
 }
